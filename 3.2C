@@ -1,0 +1,27 @@
+int SensorINPUT = A3;
+int val = 0; 
+
+int led1 = D7;
+
+void setup() {
+    pinMode(SensorINPUT, INPUT);
+    pinMode(led1, OUTPUT);
+    
+    Particle.variable("analogvalue", val);
+}
+
+void loop() {
+    delay(3600000); // Checks every hour for if the sun is up or down
+    
+    val = analogRead(SensorINPUT);
+    
+    // Not essential, just using the publish and flashing light to see if sensor is working
+    if (val > 30)
+    {
+        digitalWrite(led1, HIGH);
+        delay(1000);
+        digitalWrite(led1, LOW);
+        
+        Particle.publish("Anlan", String(val), PRIVATE);
+    }
+}
